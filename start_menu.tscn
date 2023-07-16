@@ -9,8 +9,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vacw5")
-server_ip = null
-server_port = null
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -26,6 +24,9 @@ text = "Join Session"
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Quit"
+
+[node name="IPGetter" type="HTTPRequest" parent="."]
+timeout = 10.0
 
 [connection signal="pressed" from="VBoxContainer/HostSessionButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/JoinSessionButton" to="." method="_on_join_button_pressed"]
