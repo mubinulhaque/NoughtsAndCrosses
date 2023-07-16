@@ -3,11 +3,38 @@ extends CenterContainer
 @export_placeholder("127.0.0.1") var server_ip : String
 @export_placeholder("9999") var server_port : String
 
-@onready var ip_getter = $IPGetter
+@onready var ip_getter: HTTPRequest = $IPGetter
+@onready var host_menu_button: Button = $MainMenu/HostSessionButton
+@onready var main_menu: Control = $MainMenu
+@onready var host_options = $HostServerOptions
+@onready var server_username_line_edit = $HostServerOptions/UsernameLineEdit
+@onready var join_options: Control = $JoinServerOptions
+@onready var client_username_line_edit = $JoinServerOptions/UsernameLineEdit
+@onready var ip_address_line_edit = $JoinServerOptions/IPAddressLineEdit
+@onready var current_menu: Control = main_menu
 
 
 func _ready():
+	RenderingServer.set_default_clear_color(Color.BLACK)
+	host_menu_button.grab_focus()
 	ip_getter.request_completed.connect(_display_ip)
+
+
+func _on_host_session_button_pressed():
+	_change_menu(host_options, server_username_line_edit)
+
+
+func _on_join_session_button_pressed():
+	_change_menu(join_options, client_username_line_edit)
+
+
+func _on_quit_button_pressed():
+	get_tree().quit()
+	multiplayer.multiplayer_peer = null
+
+
+func _on_back_button_pressed():
+	_change_menu(main_menu, host_menu_button)
 
 
 func _on_host_button_pressed():
@@ -42,10 +69,8 @@ func _on_host_button_pressed():
 					if request_error != OK:
 						print("Unknown error while requesting external IP address;",
 								request_error)
-					# Refer to
-					# https://docs.godotengine.org/en/stable/classes
-					# /class_enetmultiplayerpeer.html#class-enetmultiplayerpeer-method-create-server
-					# to find out the source of the error
+					# Refer to HTTPRequest.request() to find out
+					# the source of the error
 		ERR_ALREADY_IN_USE:
 			print("This instance already has an open connection!")
 			return
@@ -55,6 +80,8 @@ func _on_host_button_pressed():
 		# If the server encountered an unknown problem while being created
 		_:
 			print("Unknown error while starting the server: ", server_status)
+			# Refer to ENetMultiplayerPeer.create_server() to find out
+			# the source of the error
 	
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		print("The server was created but could not be connected to!")
@@ -65,17 +92,7 @@ func _on_host_button_pressed():
 	start_game()
 
 
-func _on_join_button_pressed():
-	print("Joining session!")
-	start_game()
-
-
-func _on_quit_button_pressed():
-	get_tree().quit()
-	multiplayer.multiplayer_peer = null
-
-
-func _display_ip(result: int, response_code: int, headers: PackedStringArray,
+func _display_ip(result: int, _response_code: int, _headers: PackedStringArray,
 		body: PackedByteArray):
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
@@ -93,11 +110,15 @@ func _display_ip(result: int, response_code: int, headers: PackedStringArray,
 			print("Request to get external IP address timed out")
 		_: # If the request failed for an unknown reason
 			print("Request to get external IP address failed: ", result)
-			# Refer to
-			# https://docs.godotengine.org/en/stable/classes
-			# /class_httprequest.html#class-httprequest-method-request
-			# to find the source of the error
+			# Refer to HTTPRequest.request() to find out the source of the error
 
 
 func start_game():
 	print("The game has started!")
+
+
+func _change_menu(new_menu: Control, node_to_focus: Control):
+	current_menu.visible = false
+	new_menu.visible = true
+	current_menu = new_menu
+	node_to_focus.grab_focus()

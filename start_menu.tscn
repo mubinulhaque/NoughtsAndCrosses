@@ -10,24 +10,123 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vacw5")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MainMenu" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="HostSessionButton" type="Button" parent="VBoxContainer"]
+[node name="HostSessionButton" type="Button" parent="MainMenu"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
 text = "Host Session"
 
-[node name="JoinSessionButton" type="Button" parent="VBoxContainer"]
+[node name="JoinSessionButton" type="Button" parent="MainMenu"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
 text = "Join Session"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
+[node name="QuitButton" type="Button" parent="MainMenu"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
 text = "Quit"
+
+[node name="HostServerOptions" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="HostServerOptions"]
+layout_mode = 2
+text = "Username:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UsernameLineEdit" type="LineEdit" parent="HostServerOptions"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+placeholder_text = "Player1"
+alignment = 1
+
+[node name="PortLabel" type="Label" parent="HostServerOptions"]
+layout_mode = 2
+text = "Port:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PortLineEdit" type="LineEdit" parent="HostServerOptions"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+placeholder_text = "9999"
+alignment = 1
+
+[node name="HostButton" type="Button" parent="HostServerOptions"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Host
+"
+
+[node name="BackButton" type="Button" parent="HostServerOptions"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Back"
+
+[node name="JoinServerOptions" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="JoinServerOptions"]
+layout_mode = 2
+text = "Username:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UsernameLineEdit" type="LineEdit" parent="JoinServerOptions"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+placeholder_text = "Player2"
+alignment = 1
+
+[node name="IPLabel" type="Label" parent="JoinServerOptions"]
+layout_mode = 2
+text = "Server IP:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IPAddressLineEdit" type="LineEdit" parent="JoinServerOptions"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+placeholder_text = "localhost"
+alignment = 1
+
+[node name="PortLabel" type="Label" parent="JoinServerOptions"]
+layout_mode = 2
+text = "Port:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PortLineEdit" type="LineEdit" parent="JoinServerOptions"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+placeholder_text = "9999"
+alignment = 1
+
+[node name="JoinButton" type="Button" parent="JoinServerOptions"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Join
+"
+
+[node name="BackButton" type="Button" parent="JoinServerOptions"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Back"
 
 [node name="IPGetter" type="HTTPRequest" parent="."]
 timeout = 10.0
 
-[connection signal="pressed" from="VBoxContainer/HostSessionButton" to="." method="_on_host_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/JoinSessionButton" to="." method="_on_join_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="MainMenu/HostSessionButton" to="." method="_on_host_session_button_pressed"]
+[connection signal="pressed" from="MainMenu/JoinSessionButton" to="." method="_on_join_session_button_pressed"]
+[connection signal="pressed" from="MainMenu/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="HostServerOptions/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="HostServerOptions/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="JoinServerOptions/BackButton" to="." method="_on_back_button_pressed"]

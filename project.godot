@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="NoughtsAndCrosses"
+config/name="Noughts and Crosses"
+config/tags=PackedStringArray("2d", "online_multiplayer")
 run/main_scene="res://start_menu.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
@@ -22,6 +23,12 @@ window/size/viewport_height=180
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
+
+[gui]
+
+theme/custom="res://themes/default_theme.tres"
+theme/custom_font="res://pixel_font.ttf"
+theme/default_font_subpixel_positioning=0
 
 [rendering]
 
