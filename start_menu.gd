@@ -10,7 +10,8 @@ extends CenterContainer
 @onready var server_username_line_edit = $HostServerOptions/UsernameLineEdit
 @onready var join_options: Control = $JoinServerOptions
 @onready var client_username_line_edit = $JoinServerOptions/UsernameLineEdit
-@onready var ip_address_line_edit = $JoinServerOptions/IPAddressLineEdit
+@onready var opponent_ip_address_line_edit = $JoinServerOptions/IPAddressLineEdit
+@onready var opponent_port_line_edit = $JoinServerOptions/PortLineEdit
 @onready var current_menu: Control = main_menu
 
 
@@ -90,6 +91,21 @@ func _on_host_button_pressed():
 	# Let the MultiplayerAPI know that it is a server
 	multiplayer.multiplayer_peer = peer
 	start_game()
+
+
+func _on_join_button_pressed():
+	var opponent_ip: String = "127.0.0.1"
+	var opponent_port: String = "9999"
+	
+	if (not opponent_ip_address_line_edit.text.is_empty()
+			and opponent_ip_address_line_edit.text.is_valid_ip_address()):
+		opponent_ip = opponent_ip_address_line_edit.text
+	
+	if (not opponent_port_line_edit.text.is_empty()
+			and opponent_port_line_edit.text.is_valid_int()):
+		opponent_port = opponent_port_line_edit.text
+	
+	
 
 
 func _display_ip(result: int, _response_code: int, _headers: PackedStringArray,
