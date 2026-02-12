@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c35xfst0bmndp"]
+[gd_scene format=3 uid="uid://c35xfst0bmndp"]
 
-[ext_resource type="Script" path="res://start_menu.gd" id="1_vacw5"]
+[ext_resource type="Script" uid="uid://dr63xafadcvka" path="res://start_menu.gd" id="1_vacw5"]
 
-[node name="StartMenu" type="CenterContainer"]
+[node name="StartMenu" type="CenterContainer" unique_id=643946114]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -10,118 +10,118 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vacw5")
 
-[node name="MainMenu" type="VBoxContainer" parent="."]
+[node name="MainMenu" type="VBoxContainer" parent="." unique_id=1773716849]
 layout_mode = 2
 
-[node name="HostSessionButton" type="Button" parent="MainMenu"]
+[node name="HostSessionButton" type="Button" parent="MainMenu" unique_id=1812769756]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
 text = "Host Session"
 
-[node name="JoinSessionButton" type="Button" parent="MainMenu"]
+[node name="JoinSessionButton" type="Button" parent="MainMenu" unique_id=1454571292]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
 text = "Join Session"
 
-[node name="QuitButton" type="Button" parent="MainMenu"]
+[node name="QuitButton" type="Button" parent="MainMenu" unique_id=1946613417]
 texture_filter = 1
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
 text = "Quit"
 
-[node name="HostServerOptions" type="VBoxContainer" parent="."]
+[node name="HostServerOptions" type="VBoxContainer" parent="." unique_id=1678175012]
 visible = false
 layout_mode = 2
 
-[node name="UsernameLabel" type="Label" parent="HostServerOptions"]
+[node name="UsernameLabel" type="Label" parent="HostServerOptions" unique_id=846977337]
 layout_mode = 2
 text = "Username:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="UsernameLineEdit" type="LineEdit" parent="HostServerOptions"]
+[node name="UsernameLineEdit" type="LineEdit" parent="HostServerOptions" unique_id=1444619170]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 placeholder_text = "Player1"
 alignment = 1
 
-[node name="PortLabel" type="Label" parent="HostServerOptions"]
+[node name="PortLabel" type="Label" parent="HostServerOptions" unique_id=1406527997]
 layout_mode = 2
 text = "Port:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PortLineEdit" type="LineEdit" parent="HostServerOptions"]
+[node name="PortLineEdit" type="LineEdit" parent="HostServerOptions" unique_id=429827855]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 placeholder_text = "9999"
 alignment = 1
 
-[node name="HostButton" type="Button" parent="HostServerOptions"]
+[node name="HostButton" type="Button" parent="HostServerOptions" unique_id=871468895]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Host
 "
 
-[node name="BackButton" type="Button" parent="HostServerOptions"]
+[node name="BackButton" type="Button" parent="HostServerOptions" unique_id=1530977546]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Back"
 
-[node name="JoinServerOptions" type="VBoxContainer" parent="."]
+[node name="JoinServerOptions" type="VBoxContainer" parent="." unique_id=1810743916]
 visible = false
 layout_mode = 2
 
-[node name="UsernameLabel" type="Label" parent="JoinServerOptions"]
+[node name="UsernameLabel" type="Label" parent="JoinServerOptions" unique_id=1121216824]
 layout_mode = 2
 text = "Username:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="UsernameLineEdit" type="LineEdit" parent="JoinServerOptions"]
+[node name="UsernameLineEdit" type="LineEdit" parent="JoinServerOptions" unique_id=940619490]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 placeholder_text = "Player2"
 alignment = 1
 
-[node name="IPLabel" type="Label" parent="JoinServerOptions"]
+[node name="IPLabel" type="Label" parent="JoinServerOptions" unique_id=1462762287]
 layout_mode = 2
 text = "Server IP:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="IPAddressLineEdit" type="LineEdit" parent="JoinServerOptions"]
+[node name="IPAddressLineEdit" type="LineEdit" parent="JoinServerOptions" unique_id=11453684]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 placeholder_text = "localhost"
 alignment = 1
 
-[node name="PortLabel" type="Label" parent="JoinServerOptions"]
+[node name="PortLabel" type="Label" parent="JoinServerOptions" unique_id=1596262678]
 layout_mode = 2
 text = "Port:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PortLineEdit" type="LineEdit" parent="JoinServerOptions"]
+[node name="PortLineEdit" type="LineEdit" parent="JoinServerOptions" unique_id=522976576]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 placeholder_text = "9999"
 alignment = 1
 
-[node name="JoinButton" type="Button" parent="JoinServerOptions"]
+[node name="JoinButton" type="Button" parent="JoinServerOptions" unique_id=1456913200]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Join
 "
 
-[node name="BackButton" type="Button" parent="JoinServerOptions"]
+[node name="BackButton" type="Button" parent="JoinServerOptions" unique_id=1212915464]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Back"
 
-[node name="IPGetter" type="HTTPRequest" parent="."]
+[node name="IPGetter" type="HTTPRequest" parent="." unique_id=558093535]
 timeout = 10.0
 
 [connection signal="pressed" from="MainMenu/HostSessionButton" to="." method="_on_host_session_button_pressed"]
