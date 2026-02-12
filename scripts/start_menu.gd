@@ -3,16 +3,16 @@ extends CenterContainer
 @export_placeholder("127.0.0.1") var server_ip : String
 @export_placeholder("9999") var server_port : String
 
-@onready var ip_getter: HTTPRequest = $IPGetter
-@onready var host_menu_button: Button = $MainMenu/HostSessionButton
-@onready var main_menu: Control = $MainMenu
-@onready var host_options = $HostServerOptions
-@onready var server_username_line_edit = $HostServerOptions/UsernameLineEdit
-@onready var join_options: Control = $JoinServerOptions
 @onready var client_username_line_edit = $JoinServerOptions/UsernameLineEdit
+@onready var current_menu: Control = main_menu
+@onready var host_menu_button: Button = $MainMenu/HostSessionButton
+@onready var host_options = $HostServerOptions
+@onready var ip_getter: HTTPRequest = $IPGetter
+@onready var join_options: Control = $JoinServerOptions
+@onready var main_menu: Control = $MainMenu
 @onready var opponent_ip_address_line_edit = $JoinServerOptions/IPAddressLineEdit
 @onready var opponent_port_line_edit = $JoinServerOptions/PortLineEdit
-@onready var current_menu: Control = main_menu
+@onready var server_username_line_edit = $HostServerOptions/UsernameLineEdit
 
 
 func _ready():
@@ -21,17 +21,36 @@ func _ready():
 	ip_getter.request_completed.connect(_display_ip)
 
 
-func _on_host_session_button_pressed():
-	_change_menu(host_options, server_username_line_edit)
+func start_game():
+	print("The game has started!")
 
 
-func _on_join_session_button_pressed():
-	_change_menu(join_options, client_username_line_edit)
+func _change_menu(new_menu: Control, node_to_focus: Control):
+	current_menu.visible = false
+	new_menu.visible = true
+	current_menu = new_menu
+	node_to_focus.grab_focus()
 
 
-func _on_quit_button_pressed():
-	get_tree().quit()
-	multiplayer.multiplayer_peer = null
+func _display_ip(result: int, _response_code: int, _headers: PackedStringArray,
+		body: PackedByteArray):
+	match result:
+		HTTPRequest.RESULT_SUCCESS:
+			var ip = body.get_string_from_utf8()
+			print("External IP address: ", ip)
+		HTTPRequest.RESULT_CANT_CONNECT:
+			print("Request to get external IP address failed while connecting")
+		HTTPRequest.RESULT_CANT_RESOLVE:
+			print("Request to get external IP address failed while resolving")
+		HTTPRequest.RESULT_CONNECTION_ERROR:
+			print("Request to get external IP address due to a connection error")
+		HTTPRequest.RESULT_TLS_HANDSHAKE_ERROR:
+			print("Request to get external IP address failed on TLS handshake")
+		HTTPRequest.RESULT_TIMEOUT:
+			print("Request to get external IP address timed out")
+		_: # If the request failed for an unknown reason
+			print("Request to get external IP address failed: ", result)
+			# Refer to HTTPRequest.request() to find out the source of the error
 
 
 func _on_back_button_pressed():
@@ -93,6 +112,10 @@ func _on_host_button_pressed():
 	start_game()
 
 
+func _on_host_session_button_pressed():
+	_change_menu(host_options, server_username_line_edit)
+
+
 func _on_join_button_pressed():
 	var opponent_ip: String = "127.0.0.1"
 	var opponent_port: String = "9999"
@@ -104,37 +127,12 @@ func _on_join_button_pressed():
 	if (not opponent_port_line_edit.text.is_empty()
 			and opponent_port_line_edit.text.is_valid_int()):
 		opponent_port = opponent_port_line_edit.text
-	
-	
 
 
-func _display_ip(result: int, _response_code: int, _headers: PackedStringArray,
-		body: PackedByteArray):
-	match result:
-		HTTPRequest.RESULT_SUCCESS:
-			var ip = body.get_string_from_utf8()
-			print("External IP address: ", ip)
-		HTTPRequest.RESULT_CANT_CONNECT:
-			print("Request to get external IP address failed while connecting")
-		HTTPRequest.RESULT_CANT_RESOLVE:
-			print("Request to get external IP address failed while resolving")
-		HTTPRequest.RESULT_CONNECTION_ERROR:
-			print("Request to get external IP address due to a connection error")
-		HTTPRequest.RESULT_TLS_HANDSHAKE_ERROR:
-			print("Request to get external IP address failed on TLS handshake")
-		HTTPRequest.RESULT_TIMEOUT:
-			print("Request to get external IP address timed out")
-		_: # If the request failed for an unknown reason
-			print("Request to get external IP address failed: ", result)
-			# Refer to HTTPRequest.request() to find out the source of the error
+func _on_join_session_button_pressed():
+	_change_menu(join_options, client_username_line_edit)
 
 
-func start_game():
-	print("The game has started!")
-
-
-func _change_menu(new_menu: Control, node_to_focus: Control):
-	current_menu.visible = false
-	new_menu.visible = true
-	current_menu = new_menu
-	node_to_focus.grab_focus()
+func _on_quit_button_pressed():
+	get_tree().quit()
+	multiplayer.multiplayer_peer = null
