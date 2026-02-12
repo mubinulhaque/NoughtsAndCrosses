@@ -39,7 +39,7 @@ func _display_ip(
 			_response_code: int,
 			_headers: PackedStringArray,
 			body: PackedByteArray,
-	):
+):
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
 			var ip = body.get_string_from_utf8()
@@ -72,8 +72,11 @@ func _on_host_button_pressed():
 		OK: # If the server was created successfully
 			print("Server created at the following IP addresses:")
 			for ip in IP.get_local_addresses():
-				if (ip.begins_with("192.168") or ip.begins_with("172")
-						or ip.begins_with("10.")):
+				if (
+						ip.begins_with("192.168")
+						or ip.begins_with("172")
+						or ip.begins_with("10.")
+				):
 					print("LAN IP address: ", ip)
 			
 			var request_error = _ip_getter.request("https://api.ipify.org")
