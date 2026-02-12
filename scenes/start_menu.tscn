@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c35xfst0bmndp"]
 
-[ext_resource type="Script" uid="uid://dr63xafadcvka" path="res://scripts/start_menu.gd" id="1_vacw5"]
+[ext_resource type="Script" uid="uid://dr63xafadcvka" path="res://scripts/start_menu.gd" id="1_ouf4f"]
 
 [node name="StartMenu" type="CenterContainer" unique_id=643946114]
 anchors_preset = 15
@@ -8,26 +8,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_vacw5")
+script = ExtResource("1_ouf4f")
 
 [node name="MainMenu" type="VBoxContainer" parent="." unique_id=1773716849]
 layout_mode = 2
 
 [node name="HostSessionButton" type="Button" parent="MainMenu" unique_id=1812769756]
 texture_filter = 1
-custom_minimum_size = Vector2(64, 16)
+custom_minimum_size = Vector2(128, 24)
 layout_mode = 2
 text = "Host Session"
 
 [node name="JoinSessionButton" type="Button" parent="MainMenu" unique_id=1454571292]
 texture_filter = 1
-custom_minimum_size = Vector2(64, 16)
+custom_minimum_size = Vector2(128, 24)
 layout_mode = 2
 text = "Join Session"
 
 [node name="QuitButton" type="Button" parent="MainMenu" unique_id=1946613417]
 texture_filter = 1
-custom_minimum_size = Vector2(64, 16)
+custom_minimum_size = Vector2(128, 24)
 layout_mode = 2
 text = "Quit"
 
@@ -37,6 +37,7 @@ layout_mode = 2
 
 [node name="UsernameLabel" type="Label" parent="HostServerOptions" unique_id=846977337]
 layout_mode = 2
+theme_override_font_sizes/font_size = 0
 text = "Username:"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -44,6 +45,7 @@ vertical_alignment = 1
 [node name="UsernameLineEdit" type="LineEdit" parent="HostServerOptions" unique_id=1444619170]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 0
 placeholder_text = "Player1"
 alignment = 1
 
@@ -60,13 +62,13 @@ placeholder_text = "9999"
 alignment = 1
 
 [node name="HostButton" type="Button" parent="HostServerOptions" unique_id=871468895]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = "Host
 "
 
 [node name="BackButton" type="Button" parent="HostServerOptions" unique_id=1530977546]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = "Back"
 
@@ -111,13 +113,13 @@ placeholder_text = "9999"
 alignment = 1
 
 [node name="JoinButton" type="Button" parent="JoinServerOptions" unique_id=1456913200]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = "Join
 "
 
 [node name="BackButton" type="Button" parent="JoinServerOptions" unique_id=1212915464]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = "Back"
 
