@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Noughts and Crosses"
 config/tags=PackedStringArray("2d", "online_multiplayer")
-run/main_scene="res://start_menu.tscn"
+run/main_scene="res://scenes/start_menu.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
