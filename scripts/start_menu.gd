@@ -3,30 +3,30 @@ extends CenterContainer
 @export_placeholder("127.0.0.1") var server_ip : String
 @export_placeholder("9999") var server_port : String
 
-@onready var _client_username_line_edit = $JoinServerOptions/UsernameLineEdit
+@onready var _client_username_line_edit: LineEdit = $JoinServerOptions/UsernameLineEdit
 @onready var _current_menu: Control
 @onready var _host_menu_button: Button = $MainMenu/HostSessionButton
-@onready var _host_options = $HostServerOptions
+@onready var _host_options: Control = $HostServerOptions
 @onready var _ip_getter: HTTPRequest = $IPGetter
 @onready var _join_options: Control = $JoinServerOptions
 @onready var _main_menu: Control = $MainMenu
-@onready var _opponent_ip_address_line_edit = $JoinServerOptions/IPAddressLineEdit
-@onready var _opponent_port_line_edit = $JoinServerOptions/PortLineEdit
-@onready var _server_username_line_edit = $HostServerOptions/UsernameLineEdit
+@onready var _opponent_ip_address_line_edit: LineEdit = $JoinServerOptions/IPAddressLineEdit
+@onready var _opponent_port_line_edit: LineEdit = $JoinServerOptions/PortLineEdit
+@onready var _server_username_line_edit: LineEdit = $HostServerOptions/UsernameLineEdit
 
 
-func _ready():
+func _ready() -> void:
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	_host_menu_button.grab_focus()
 	_current_menu = _main_menu
 	_ip_getter.request_completed.connect(_display_ip)
 
 
-func start_game():
+func start_game() -> void:
 	print("The game has started!")
 
 
-func _change_menu(new_menu: Control, node_to_focus: Control):
+func _change_menu(new_menu: Control, node_to_focus: Control) -> void:
 	if _current_menu:
 		_current_menu.visible = false
 	new_menu.visible = true
@@ -39,10 +39,10 @@ func _display_ip(
 			_response_code: int,
 			_headers: PackedStringArray,
 			body: PackedByteArray,
-):
+) -> void:
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
-			var ip = body.get_string_from_utf8()
+			var ip := body.get_string_from_utf8()
 			print("External IP address: ", ip)
 		HTTPRequest.RESULT_CANT_CONNECT:
 			print("Request to get external IP address failed while connecting")
@@ -59,14 +59,14 @@ func _display_ip(
 			# Refer to HTTPRequest.request() to find out the source of the error
 
 
-func _on_back_button_pressed():
+func _on_back_button_pressed() -> void:
 	_change_menu(_main_menu, _host_menu_button)
 
 
-func _on_host_button_pressed():
-	var peer = ENetMultiplayerPeer.new()
+func _on_host_button_pressed() -> void:
+	var peer := ENetMultiplayerPeer.new()
 	# Create a server for 2 players only
-	var server_status = peer.create_server(int(server_port), 2)
+	var server_status: Error = peer.create_server(int(server_port), 2)
 	
 	match server_status:
 		OK: # If the server was created successfully
@@ -79,7 +79,7 @@ func _on_host_button_pressed():
 				):
 					print("LAN IP address: ", ip)
 			
-			var request_error = _ip_getter.request("https://api.ipify.org")
+			var request_error := _ip_getter.request("https://api.ipify.org")
 			match request_error:
 				ERR_UNCONFIGURED:
 					print("Error while requesting external IP address: ")
@@ -121,11 +121,11 @@ func _on_host_button_pressed():
 	start_game()
 
 
-func _on_host_session_button_pressed():
+func _on_host_session_button_pressed() -> void:
 	_change_menu(_host_options, _server_username_line_edit)
 
 
-func _on_join_button_pressed():
+func _on_join_button_pressed() -> void:
 	var opponent_ip: String = "127.0.0.1"
 	var opponent_port: String = "9999"
 	
@@ -142,10 +142,10 @@ func _on_join_button_pressed():
 		opponent_port = _opponent_port_line_edit.text
 
 
-func _on_join_session_button_pressed():
+func _on_join_session_button_pressed() -> void:
 	_change_menu(_join_options, _client_username_line_edit)
 
 
-func _on_quit_button_pressed():
+func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 	multiplayer.multiplayer_peer = null
