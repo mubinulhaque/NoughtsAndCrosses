@@ -3,22 +3,23 @@ extends CenterContainer
 @export_placeholder("127.0.0.1") var server_ip : String
 @export_placeholder("9999") var server_port : String
 
-@onready var client_username_line_edit = $JoinServerOptions/UsernameLineEdit
-@onready var current_menu: Control = main_menu
-@onready var host_menu_button: Button = $MainMenu/HostSessionButton
-@onready var host_options = $HostServerOptions
-@onready var ip_getter: HTTPRequest = $IPGetter
-@onready var join_options: Control = $JoinServerOptions
-@onready var main_menu: Control = $MainMenu
-@onready var opponent_ip_address_line_edit = $JoinServerOptions/IPAddressLineEdit
-@onready var opponent_port_line_edit = $JoinServerOptions/PortLineEdit
-@onready var server_username_line_edit = $HostServerOptions/UsernameLineEdit
+@onready var _client_username_line_edit = $JoinServerOptions/UsernameLineEdit
+@onready var _current_menu: Control
+@onready var _host_menu_button: Button = $MainMenu/HostSessionButton
+@onready var _host_options = $HostServerOptions
+@onready var _ip_getter: HTTPRequest = $IPGetter
+@onready var _join_options: Control = $JoinServerOptions
+@onready var _main_menu: Control = $MainMenu
+@onready var _opponent_ip_address_line_edit = $JoinServerOptions/IPAddressLineEdit
+@onready var _opponent_port_line_edit = $JoinServerOptions/PortLineEdit
+@onready var _server_username_line_edit = $HostServerOptions/UsernameLineEdit
 
 
 func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
-	host_menu_button.grab_focus()
-	ip_getter.request_completed.connect(_display_ip)
+	_host_menu_button.grab_focus()
+	_current_menu = _main_menu
+	_ip_getter.request_completed.connect(_display_ip)
 
 
 func start_game():
@@ -26,14 +27,19 @@ func start_game():
 
 
 func _change_menu(new_menu: Control, node_to_focus: Control):
-	current_menu.visible = false
+	if _current_menu:
+		_current_menu.visible = false
 	new_menu.visible = true
-	current_menu = new_menu
+	_current_menu = new_menu
 	node_to_focus.grab_focus()
 
 
-func _display_ip(result: int, _response_code: int, _headers: PackedStringArray,
-		body: PackedByteArray):
+func _display_ip(
+			result: int,
+			_response_code: int,
+			_headers: PackedStringArray,
+			body: PackedByteArray,
+	):
 	match result:
 		HTTPRequest.RESULT_SUCCESS:
 			var ip = body.get_string_from_utf8()
@@ -54,7 +60,7 @@ func _display_ip(result: int, _response_code: int, _headers: PackedStringArray,
 
 
 func _on_back_button_pressed():
-	_change_menu(main_menu, host_menu_button)
+	_change_menu(_main_menu, _host_menu_button)
 
 
 func _on_host_button_pressed():
@@ -70,7 +76,7 @@ func _on_host_button_pressed():
 						or ip.begins_with("10.")):
 					print("LAN IP address: ", ip)
 			
-			var request_error = ip_getter.request("https://api.ipify.org")
+			var request_error = _ip_getter.request("https://api.ipify.org")
 			match request_error:
 				ERR_UNCONFIGURED:
 					print("Error while requesting external IP address: ")
@@ -113,24 +119,28 @@ func _on_host_button_pressed():
 
 
 func _on_host_session_button_pressed():
-	_change_menu(host_options, server_username_line_edit)
+	_change_menu(_host_options, _server_username_line_edit)
 
 
 func _on_join_button_pressed():
 	var opponent_ip: String = "127.0.0.1"
 	var opponent_port: String = "9999"
 	
-	if (not opponent_ip_address_line_edit.text.is_empty()
-			and opponent_ip_address_line_edit.text.is_valid_ip_address()):
-		opponent_ip = opponent_ip_address_line_edit.text
+	if (
+			not _opponent_ip_address_line_edit.text.is_empty()
+			and _opponent_ip_address_line_edit.text.is_valid_ip_address()
+	):
+		opponent_ip = _opponent_ip_address_line_edit.text
 	
-	if (not opponent_port_line_edit.text.is_empty()
-			and opponent_port_line_edit.text.is_valid_int()):
-		opponent_port = opponent_port_line_edit.text
+	if (
+			not _opponent_port_line_edit.text.is_empty()
+			and _opponent_port_line_edit.text.is_valid_int()
+	):
+		opponent_port = _opponent_port_line_edit.text
 
 
 func _on_join_session_button_pressed():
-	_change_menu(join_options, client_username_line_edit)
+	_change_menu(_join_options, _client_username_line_edit)
 
 
 func _on_quit_button_pressed():
